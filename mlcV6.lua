@@ -14,35 +14,6 @@ local DelLScript = 0
 local DelREvent = 0
 local DelRFunction = 0
 local DelTool = 0
-
-for i, v in pairs(game:GetChildren()) do
-	if v.Name ~= "Chat" and v.Name ~= "Teams" and v.Name ~= "CoreGui" then  
-		for o, b in pairs(v:GetDescendants()) do
-			if b:IsA("LocalScript") and b.Name ~= "Animate" and b.Name ~= "BubbleChat" and b.Name ~= "ChatScript" then
-				DelLScript = DelLScript + 1
-				b.Disabled = true
-			elseif b:IsA("RemoteEvent") then
-				if b.Parent and b.Parent.Name == "DefaultChatSystemChatEvents" then
-					continue
-				end
-
-				DelREvent = DelREvent + 1
-				b:Destroy()
-			elseif b:IsA("RemoteFunction") then
-				if b.Parent and b.Parent.Name == "DefaultChatSystemChatEvents" then
-					continue
-				end
-
-				DelRFunction = DelRFunction + 1
-				b:Destroy()
-			elseif b:IsA("Tool") then
-				DelTool = DelTool + 1
-				b:Destroy()
-			end
-		end
-	end
-end
-
 local RService = game:GetService("RunService")
 
 RService.RenderStepped:Connect(function()
