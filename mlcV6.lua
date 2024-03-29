@@ -2,8 +2,7 @@ local STOPEVERYTHING = false
 
 local resetBindable = Instance.new("BindableEvent")
 resetBindable.Event:connect(function()
-	STOPEVERYTHING = true
-	game:GetService("Players").LocalPlayer:LoadCharacter()
+	STOPEVERYTHING_FUNC()
 end)
 game:GetService("StarterGui"):SetCore("ResetButtonCallback", resetBindable)
 
@@ -527,7 +526,7 @@ function Reanimate()
 			local resetBindable = Instance.new("BindableEvent")
 			resetBindable.Event:connect(function()
 				game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
-				STOPEVERYTHING = true
+				STOPEVERYTHING_FUNC()
 				resetBindable:Destroy()
 				pcall(function()
 					CloneChar.Humanoid.Health = 0
@@ -541,7 +540,7 @@ function Reanimate()
 					if STOPEVERYTHING then return end
 					game:GetService("RunService").RenderStepped:wait()
 					if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 or not DeadChar or not DeadChar:FindFirstChild("Head") or not DeadChar:FindFirstChild("Humanoid") or DeadChar:FindFirstChild("Humanoid").Health <= 0 then 
-						STOPEVERYTHING = true
+						STOPEVERYTHING_FUNC()
 						pcall(function()
 							game.Players.LocalPlayer.Character = CloneChar
 							CloneChar:Destroy()
@@ -714,7 +713,7 @@ function Reanimate()
 				while true do
 					game:GetService("RunService").RenderStepped:wait()
 					if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 then 
-						STOPEVERYTHING = true
+						STOPEVERYTHING_FUNC()
 						pcall(function()
 							game.Players.LocalPlayer.Character = CloneChar
 							CloneChar:Destroy()
@@ -913,7 +912,7 @@ function Reanimate()
 				while true do
 					game:GetService("RunService").RenderStepped:wait()
 					if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 or not DeadChar or not DeadChar:FindFirstChild("Head") or not DeadChar:FindFirstChild("Humanoid") or DeadChar:FindFirstChild("Humanoid").Health <= 0 then 
-						STOPEVERYTHING = true
+						STOPEVERYTHING_FUNC()
 						pcall(function()
 							game.Players.LocalPlayer.Character = CloneChar
 							CloneChar:Destroy()
@@ -1102,7 +1101,7 @@ function Reanimate()
 				while true do
 					game:GetService("RunService").RenderStepped:wait()
 					if not CloneChar or not CloneChar:FindFirstChild("Head") or not CloneChar:FindFirstChild("Humanoid") or CloneChar:FindFirstChild("Humanoid").Health <= 0 then 
-						STOPEVERYTHING = true
+						STOPEVERYTHING_FUNC()
 						pcall(function()
 							game.Players.LocalPlayer.Character = CloneChar
 							CloneChar:Destroy()
@@ -10406,6 +10405,12 @@ CreateSoundP(6112625298, Character, 9, 1, false)
 --\\=================================//
 
 local CurrentCamera = game:GetService("Workspace").CurrentCamera
+
+function STOPEVERYTHING_FUNC()
+	pcall(function() CloneChar.Humanoid.Health = 0 end)
+	pcall(function() game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 0 end)
+	print("Stopped, i hope.")
+end
 
 while true do
 	if STOPEVERYTHING then return end
