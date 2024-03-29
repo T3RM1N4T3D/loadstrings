@@ -1,5 +1,21 @@
 local STOPEVERYTHING = false
 
+-- so we can clean up everything
+local InstanceList = setmetatable({},{__mode = "v"})
+local oldInstance = Instance
+local Instance = newproxy(true)
+getmetatable(Instance).__index = function(self,index)
+	if index == "new" then
+		return function (class,parent)
+			local thing = oldInstance.new(class,parent)
+			
+			table.insert(InstanceList,thing)
+			
+			return thing
+		end
+	end
+end
+
 local resetBindable = Instance.new("BindableEvent")
 resetBindable.Event:connect(function()
 	STOPEVERYTHING_FUNC()
@@ -10408,8 +10424,14 @@ local CurrentCamera = game:GetService("Workspace").CurrentCamera
 
 function STOPEVERYTHING_FUNC()
 	STOPEVERYTHING = true
+
 	pcall(function() CloneChar.Humanoid.Health = 0 end)
 	pcall(function() game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 0 end)
+
+	for _,v in pairs(InstanceList) do
+		pcall(game.Destroy,v)
+	end
+	
 	game:GetService("StarterGui"):SetCore("SendNotification",{
 		Title = "mlcv6",
 		Text = "Stopping Script",
