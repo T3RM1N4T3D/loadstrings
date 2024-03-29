@@ -10407,9 +10407,13 @@ CreateSoundP(6112625298, Character, 9, 1, false)
 local CurrentCamera = game:GetService("Workspace").CurrentCamera
 
 function STOPEVERYTHING_FUNC()
+	STOPEVERYTHING = true
 	pcall(function() CloneChar.Humanoid.Health = 0 end)
 	pcall(function() game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 0 end)
-	print("Stopped, i hope.")
+	game:GetService("StarterGui"):SetCore("SendNotification",{
+		Title = "mlcv6",
+		Text = "Stopping Script",
+	})
 end
 
 while true do
